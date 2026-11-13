@@ -1,10 +1,30 @@
 {
-  "name": "urvil-engineering-standards",
-  "private": true,
+  "name": "engineering-standards",
   "version": "1.0.0",
-  "description": "Personal engineering standards and reusable Agent Skills",
+  "description": "Urvil Patel's personal engineering standards, constitution, and reusable Agent Skills library for Next.js, React, and full-stack TypeScript development.",
+  "license": "MIT",
+  "author": "Urvil Patel",
+  "homepage": "https://github.com/uvpatel/engineering-standards#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uvpatel/engineering-standards.git"
+  },
+  "keywords": [
+    "agent-skills",
+    "skills",
+    "skills-sh",
+    "claude-code",
+    "cursor",
+    "nextjs",
+    "react",
+    "typescript",
+    "engineering-standards",
+    "better-auth",
+    "shadcn-ui"
+  ],
   "scripts": {
     "validate": "bash scripts/validate.sh",
+    "test": "bash scripts/validate.sh",
     "install:claude-skills": "bash scripts/install-claude-skills.sh"
   }
 }

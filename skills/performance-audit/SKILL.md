@@ -1,33 +1,32 @@
 ---
 name: performance-audit
-description: Audit a Next.js/React application's runtime, bundle, rendering, data access, and database performance, then propose evidence-based improvements.
+description: Audit a Next.js and React application's runtime, bundle size, Core Web Vitals, data fetching waterfalls, and database query performance. Use when diagnosing slow page loads, high memory usage, heavy client bundles, or database latency.
+license: MIT
+metadata:
+  author: Urvil Patel
+  version: 1.0.0
 ---
 
 # Performance Audit
 
-## Audit before optimizing
+## Measure Before Optimizing
 
-1. Identify user-visible performance symptoms and target metrics.
-2. Inspect installed versions and existing performance tooling.
-3. Map route rendering and client/server boundaries.
-4. Inspect network waterfalls, bundle composition, expensive renders, and database query patterns where tools/data are available.
-5. Establish a baseline before changes.
+1. **Identify Concrete Symptoms:** Establish clear user-visible symptoms or target metrics before modifying code.
+2. **Collect Baselines:** Measure existing Core Web Vitals (LCP, INP, CLS), bundle sizes, or API response times.
+3. **Evidence-Based Findings:** Back every identified issue with concrete evidence (profiler traces, query plans, bundle analysis).
+4. **No Speculative Micro-Optimizations:** Avoid premature memoization (`useMemo`, `useCallback`) without measured impact.
 
-## Review areas
+## Audit Areas
 
-- Client JavaScript and client component boundaries.
-- Request waterfalls and duplicate requests.
-- Image/font loading and layout shifts.
-- Heavy dependencies and code splitting.
-- React state scope and unnecessary rerenders.
-- Database indexes, projections, pagination, and N+1 queries.
-- Cache correctness, invalidation, and privacy.
-- Third-party scripts and external service latency.
+- **Core Web Vitals:** Verify LCP (<2.5s), INP (<200ms), and CLS (<0.1) across key user routes.
+- **RSC & Bundle Footprint:** Ensure client boundaries (`"use client"`) are confined to leaf components. Check for heavy dependencies.
+- **Request Waterfalls:** Identify chained sequential `await` calls that should be executed concurrently via `Promise.all()`.
+- **Database Query Hygiene:** Check for missing indexes, missing `.lean()` on Mongoose queries, unpaginated reads, and missing field projections.
 
-## Output
+## Approval Gate
 
-Use a prioritized list: issue, evidence, user impact, proposed fix, risk, and verification method.
+Do not implement performance refactors without presenting an audit report and receiving explicit developer approval.
 
-## Approval
+## Detailed Checklist
 
-Do not implement optimizations until the developer approves the plan. Do not claim gains without measurement.
+For a comprehensive performance inspection checklist and report format, consult [Performance Audit Checklist](references/audit-checklist.md).

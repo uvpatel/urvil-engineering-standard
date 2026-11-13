@@ -1,28 +1,34 @@
 ---
 name: authentication-engineering
-description: Implement or review authentication and authorization using the project's approved Better Auth configuration and data model.
+description: Implement, configure, and review authentication, authorization, and session management using Better Auth. Use when configuring auth providers, protecting routes, checking user permissions, or managing sessions.
+license: MIT
+metadata:
+  author: Urvil Patel
+  version: 1.0.0
 ---
 
 # Authentication Engineering
 
-## Preserve the selected provider
+## Preserve Better Auth
 
-Use Better Auth when it is the approved project choice. Do not replace it with Clerk, Auth.js, or a custom solution without explicit approval.
+Better Auth is the project's standard authentication framework. Do not replace it with Clerk, Auth.js (NextAuth), or custom token implementations without explicit developer approval.
 
-## Design
+## Security Architecture
 
-- Inspect current auth configuration, adapters, providers, session strategy, callbacks, and route protection.
-- Distinguish authentication (who the user is) from authorization (what they may do).
-- Enforce protected operations on the server; UI route guards are not sufficient.
-- Define session lifetime, cookie settings, account linking, and sign-out behavior.
-- Validate callback URLs and OAuth configuration.
-- Keep secrets in environment variables.
-- Avoid exposing provider tokens or session internals to the client.
+1. **Server Enforcement:** Enforce authentication (`auth.api.getSession`) and authorization (roles, permissions) on the server in Server Components, Server Actions, and Route Handlers. Client-side route guards are insufficient.
+2. **Secret Isolation:** Keep `BETTER_AUTH_SECRET`, OAuth client secrets, and database credentials in server-side environment variables. Never expose them via `NEXT_PUBLIC_`.
+3. **Session Cookies:** Ensure session cookies are configured with `HttpOnly`, `SameSite=Lax`, and `Secure` in production.
+4. **Anti-IDOR:** Use the authenticated session user ID to query and mutate resources. Never trust an unverified user ID supplied in request bodies.
 
-## UX
+## UX & Auth States
 
-Cover login, signup, callback/loading, validation errors, expired sessions, unauthorized access, and logout.
+Ensure complete coverage across the entire authentication lifecycle:
+- Login and Signup flows with client & server validation.
+- OAuth callbacks, loading states, and redirect handlers.
+- Session expiration and graceful re-authentication.
+- Unauthorized access feedback (`401` / `403` redirects or messages).
+- Clear, safe sign-out behavior.
 
-## Verification
+## Reference Patterns
 
-Test unauthenticated access, authenticated access, ownership checks, expired/invalid sessions, provider failure, and account-linking edge cases where applicable.
+For detailed Better Auth server helper examples, Server Action protection, and client hooks, consult [Better Auth Engineering Patterns](references/better-auth-patterns.md).
