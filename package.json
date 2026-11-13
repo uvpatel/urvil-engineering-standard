@@ -1,0 +1,10 @@
+{
+  "name": "urvil-engineering-standards",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Personal engineering standards and reusable Agent Skills",
+  "scripts": {
+    "validate": "bash scripts/validate.sh",
+    "install:claude-skills": "bash scripts/install-claude-skills.sh"
+  }
+}
